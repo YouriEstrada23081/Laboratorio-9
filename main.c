@@ -129,7 +129,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	if(archivo==0 && estadopasado==0){
+	if(archivo==0 && estadopasado==0){ //bandera solo para mandar una vez el mensaje
 		  uint8_t Test2[]="Hola, los archivos que se encuentran en el Sd son:\r\n";
 		  	  			  HAL_UART_Transmit(&huart2,Test2,sizeof(Test2),1000);
 		  uint8_t Test1[]="a.Fantasma de Pacman b. Hongo de Mario c. una carita feliz \r\n";
@@ -142,19 +142,19 @@ int main(void)
 	}
 	estadopasado=estadoactual;
 	if (archivo==1){
-		  fres = f_open(&fil, "Pacman.txt", FA_READ);
+		  fres = f_open(&fil, "Pacman.txt", FA_READ); //lecura del archivo
 		  if (fres == FR_OK) {
 		  transmit_uart("File opened for reading.\n");
 		  } else if (fres != FR_OK) {
 		  transmit_uart("File was not opened for reading!\n");
 		  }
-		  while (f_gets(buffer, sizeof(buffer), &fil)) {
+		  while (f_gets(buffer, sizeof(buffer), &fil)) { //escribir el contenido
 		  char mRd[100];
 		  sprintf(mRd, "%s", buffer);
 		  transmit_uart(mRd);
 		  }
 		  fres = f_close(&fil);
-		  if (fres == FR_OK) {
+		  if (fres == FR_OK) { //cerrar archivo para evitar corromper
 		  transmit_uart("The file is closed.\n");
 		  } else if (fres != FR_OK) {
 		  transmit_uart("The file was not closed.\n");
@@ -163,7 +163,7 @@ int main(void)
 		  estadopasado=0;
 	}
 	if (archivo==2){
-		  fres = f_open(&fil, "Mario.txt", FA_READ);
+		  fres = f_open(&fil, "Mario.txt", FA_READ);//todo esto es igual al pasado
 		  		  if (fres == FR_OK) {
 		  		  transmit_uart("File opened for reading.\n");
 		  		  } else if (fres != FR_OK) {
@@ -204,8 +204,8 @@ int main(void)
 		 		  	archivo=0;
 		 		  	estadopasado=0;
 	}
-	if(archivo==4 && estadopasado1==0){
-		  f_mount(NULL, "", 1);
+	if(archivo==4 && estadopasado1==0){ //bandera para mandar el mensaje una vez
+		  f_mount(NULL, "", 1); //desmontar la sd
 		  if (fres == FR_OK) {
 		  transmit_uart("The Micro SD card is unmounted!\n");
 		  } else if (fres != FR_OK) {
@@ -423,3 +423,4 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
